@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import {Http} from '@angular/http';
+
+// import * from './getserverlist.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +10,15 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'app';
+
+
+
+  // showServerList() {
+  //   this.configService.getConfig()
+  //     .subscribe((data: Config) => this.config = {
+  //         heroesUrl: data['heroesUrl'],
+  //         textfile:  data['textfile']
+  //     });
+  // }
 }
+
