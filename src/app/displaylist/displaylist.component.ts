@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {Sort, MatSort, MatTableDataSource} from '@angular/material';
 import {Server} from '../server';
-import {Servers} from '../servers';
+// import {Servers} from '../servers';
 import { GetserverlistService } from '../getserverlist.service';
 import { Observable, of } from 'rxjs';
 
