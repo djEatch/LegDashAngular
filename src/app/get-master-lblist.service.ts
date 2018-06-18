@@ -1,52 +1,48 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { MasterLB } from "./master-lb";
+import { map, catchError } from "rxjs/operators";
 import { Observable, of } from "rxjs";
-import { Server } from "./server";
-// import {Servers} from './servers';
-import { catchError, tap, map } from "rxjs/operators";
-
-const httpOptions = {
-  headers: new HttpHeaders({ "Content-Type": "application/text" })
-};
 
 @Injectable({
   providedIn: "root"
 })
-export class GetserverlistService {
+export class GetMasterLBListService {
   constructor(private http: HttpClient) {}
 
-  getList(): Observable<Server[]> {
-    return this.http.get("assets/servers.txt", { responseType: "text" }).pipe(
+  getList(): Observable<MasterLB[]> {
+    return this.http.get("assets/MasterLBList.txt", { responseType: "text" }).pipe(
       map(data => {
-        let myArray: Server[];
-        myArray = this.extractServerData(data);
+        let myArray: MasterLB[];
+        myArray = this.extractLBData(data);
         return myArray;
       }),
-      catchError(this.handleError<Server[]>("getList", []))
+      catchError(this.handleError<MasterLB[]>("getList", []))
     );
   }
 
-  extractServerData(res: string): Server[] {
+  extractLBData(res: string): MasterLB[] {
     const csvData: string = res;
     const allTextLines: string[] = csvData.split(/\r\n|\n/);
     const headers: string[] = allTextLines[0].split(",");
-    const lines: Server[] = [];
+    const lines: MasterLB[] = [];
 
     for (let i = 1; i < allTextLines.length; i++) {
       // split content based on comma
       let data = allTextLines[i].split(",");
       if (data.length == headers.length) {
-        let row = new Server(
+        let row = new MasterLB(
           data[0].replace(/['"]+/g, ""),
           data[1].replace(/['"]+/g, ""),
           data[2].replace(/['"]+/g, ""),
-          data[3].replace(/['"]+/g, "")
+          data[3].replace(/['"]+/g, ""),
+          data[4].replace(/['"]+/g, "")
         );
         lines.push(row);
       }
     }
     return lines;
-    //console.log(lines);
+    console.log(lines);
   }
 
   /**

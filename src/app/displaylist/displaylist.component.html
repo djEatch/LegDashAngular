@@ -3,7 +3,7 @@
 </p>
 
 <div>
-  <table mat-table [dataSource]="servers | async" matSort (matSortChange)="sortData($event)" class="mat-elevation-z8">
+  <table mat-table [dataSource]="servers | async" matSort (matSortChange)="sortServerData($event)" class="mat-elevation-z8">
   
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
@@ -25,8 +25,32 @@
       <td mat-cell *matCellDef="let element">{{element.path}}</td>
     </ng-container>
   
+    <tr mat-header-row *matHeaderRowDef="displayedServerColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedServerColumns;"></tr>
+  
+  </table>
+</div>
+
+<div>
+  <table mat-table [dataSource]="masterLBs | async" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="environmentType">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>Env Type</th>
+      <td mat-cell *matCellDef="let element">{{element.environmentType}}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="address">
+      <th mat-header-cell *matHeaderCellDef  mat-sort-header>Address</th>
+      <td mat-cell *matCellDef="let element">{{element.address}}</td>
+    </ng-container>
+  
+    <ng-container matColumnDef="endPoint">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>End Point</th>
+      <td mat-cell *matCellDef="let element">{{element.endPoint}}</td>
+    </ng-container>
+  
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedMLBColumns;"></tr>
   
   </table>
 </div>

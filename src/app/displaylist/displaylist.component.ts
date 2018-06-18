@@ -1,9 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {Sort, MatSort, MatTableDataSource} from '@angular/material';
 import {Server} from '../server';
+import {MasterLB} from '../master-lb';
 // import {Servers} from '../servers';
 import { GetserverlistService } from '../getserverlist.service';
 import { Observable, of } from 'rxjs';
+import { GetMasterLBListService } from '../get-master-lblist.service';
 
 @Component({
   selector: 'app-displaylist',
@@ -13,20 +15,26 @@ import { Observable, of } from 'rxjs';
 export class DisplaylistComponent implements OnInit {
 
   servers: Observable<Server[]>;
+  masterLBs: Observable<MasterLB[]>;
 
-  constructor(private sls:GetserverlistService){}
+  constructor(private sls:GetserverlistService, private mlbl:GetMasterLBListService){}
 
   getServers():void{
     this.servers = this.sls.getList();
   }
 
-   displayedColumns = ['name', 'hostname', 'port', 'path'];
+  getMasterLBs():void{
+    this.masterLBs = this.mlbl.getList();
+  }
+
+   displayedServerColumns = ['name', 'hostname', 'port', 'path'];
+   displayedMLBColumns = ['environmentType', 'address', 'endPoint'];
 
    //@ViewChild(MatSort) sort: MatSort;
 
 
 
-   sortData(sort: Sort) {
+   sortServerData(sort: Sort) {
     
     let data: Server[] = [];
     this.servers.subscribe((servers) => {data = servers as Server[]});
@@ -48,7 +56,9 @@ export class DisplaylistComponent implements OnInit {
 
   } 
 
+
   ngOnInit() {
+    this.getMasterLBs();
     this.getServers();
     //this.dataSource.sort = this.sort;
   }
